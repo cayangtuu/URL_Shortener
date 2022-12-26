@@ -1,0 +1,16 @@
+{
+  "results": [
+    {
+      "originalURL": "http://google.com",
+      "shortenURL": "goo01"
+    },
+    {
+      "originalURL": "https://tw.yahoo.com/",
+      "shortenURL": "yah02"
+    },
+    {
+      "originalURL": "https: //www.youtube.com/",
+      "shortenURL": "you03"
+    }
+  ]
+}
