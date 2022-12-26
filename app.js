@@ -1,5 +1,6 @@
 const express = require("express")
 const exphbs = require("express-handlebars")
+const URLModel = require("./models/URL")
 const port = 3000
 require("./config/mongoose")
 
@@ -16,13 +17,29 @@ app.post("/", (req, res) => {
   if (!req.body.url) {
     return res.redirect("/")
   }
-  const shortenUrl = "ert45"
-  res.render("index", { originalUrl: req.body.url, shortenUrl: req.headers.origin + "/" + shortenUrl })
+  const originalURL = req.body.url
+  URLModel.findOne({ originalURL })
+    .lean()
+    .then(Url => {
+      if (Url) {
+        const shorterURL = Url.shorterURL
+        res.render("index", { originalURL, shorterURL, localURL: req.headers.origin })
+      } else {
+        const shorterURL = 'ertws'
+        URLModel.create({ originalURL, shorterURL })
+        res.render("index", { originalURL, shorterURL, localURL: req.headers.origin })
+      }
+    })
+    .catch(error => console.log(error))
+
 })
 
-app.get("/:shortenUrl", (req, res) => {
-  const { shortenUrl } = req.params
-  return res.redirect("http://google.com")
+app.get("/show/:shorterURL", (req, res) => {
+  const { shorterURL } = req.params
+  URLModel.findOne({ shorterURL: shorterURL })
+    .then(Url => {
+      return res.redirect(Url.originalURL)
+    })
 })
 
 app.listen(port, () => {

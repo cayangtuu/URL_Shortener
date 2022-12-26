@@ -6,5 +6,5 @@ const URLModel = require("../URL")
 db.once("open", () => {
   URLModel.insertMany(URLList)
     .then(() => console.log("URL Data Insert Successfully!"))
-    .catch(() => console.log(error))
+    .catch((error) => console.log(error))
 })

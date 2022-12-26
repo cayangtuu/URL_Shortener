@@ -6,17 +6,17 @@
       src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png" alt="圖片">
     <form class="input-group mt-3" action="/" method="POST">
       <label class="form-label" for="url"></label>
-      <input class="form-control" type="url" id="url" name="url" placeholder="Input URL here..." value="{{originalUrl}}"
+      <input class="form-control" type="url" id="url" name="url" placeholder="Input URL here..." value="{{originalURL}}"
         required>
       <div class="input-group-append">
-        <button type="submit" class="btn btn-success">Shorten</button>
+        <button type="submit" class="btn btn-success">Shorter</button>
       </div>
     </form>
   </div>
-  {{#if shortenUrl}}
+  {{#if shorterURL}}
   <div class="alert alert-success mt-3" role="alert">
-    <h5 class="alert-heading">Shorten Successfully !!!</h5>
-    <a href="{{shortenUrl}}">{{shortenUrl}}</a>
+    <h5 class="alert-heading">Shorter Successfully !!!</h5>
+    <a href="/show/{{shorterURL}}">{{localURL}}/{{shorterURL}}</a>
   </div>
   {{!-- {{else}}
   <div class="alert alert-danger mt-3" role="alert">
