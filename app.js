@@ -1,6 +1,7 @@
 const express = require("express")
 const exphbs = require("express-handlebars")
 const URLModel = require("./models/URL")
+const generateURL = require("./utils/generateURL")
 const port = 3000
 require("./config/mongoose")
 
@@ -22,10 +23,10 @@ app.post("/", (req, res) => {
     .lean()
     .then(Url => {
       const shorterURL = () => {
-        if (Url) {
+        if (!Url) {
           return Url.shorterURL
         } else {
-          const shortURL = 'ertws'
+          const shortURL = generateURL(5)
           URLModel.create({ originalURL, shorterURL: shortURL })
           return shortURL
         }
@@ -34,7 +35,6 @@ app.post("/", (req, res) => {
     })
     .catch(error => {
       console.log(error)
-      res.render("error", { 'errmsg': error.message })
     })
 
 })
