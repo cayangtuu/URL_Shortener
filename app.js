@@ -19,7 +19,6 @@ app.post("/", (req, res) => {
     return res.redirect("/")
   }
   const originalURL = req.body.url
-  console.log(originalURL)
   URLModel.findOne({ originalURL })
     .lean()
     .then(Url => {
