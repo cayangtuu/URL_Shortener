@@ -33,19 +33,29 @@ app.post("/", (req, res) => {
     })
     .catch(error => {
       console.log(error)
+      res.render("error", {
+        'errtitle': "Connot shorten the URL!!!",
+        'errcont': "Check and contact the web manager.",
+        'errmsg': error.message
+      })
     })
-
 })
 
 app.get("/show/:shorterURL", (req, res) => {
   const { shorterURL } = req.params
   URLModel.findOne({ shorterURL })
     .then(Url => {
-      return res.redirect(Url.originalURL)
+      if (Url) {
+        return res.redirect(Url.originalURL)
+      }
     })
     .catch(error => {
       console.log(error)
-      res.render("error", { 'errmsg': error.message })
+      res.render("error", {
+        'errtitle': "The URL is not valid !!!",
+        'errcont': "Check and confirm the URL is correct.",
+        'errmsg': error.message
+      })
     })
 })
 
