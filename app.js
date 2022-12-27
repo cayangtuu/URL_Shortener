@@ -19,19 +19,17 @@ app.post("/", (req, res) => {
     return res.redirect("/")
   }
   const originalURL = req.body.url
+  console.log(originalURL)
   URLModel.findOne({ originalURL })
     .lean()
     .then(Url => {
-      const shorterURL = () => {
-        if (!Url) {
-          return Url.shorterURL
-        } else {
-          const shortURL = generateURL(5)
-          URLModel.create({ originalURL, shorterURL: shortURL })
-          return shortURL
-        }
+      if (Url) {
+        res.render("index", { originalURL, shorterURL: Url.shorterURL, localURL: req.headers.origin })
+      } else {
+        const shortURL = generateURL(5)
+        URLModel.create({ originalURL, shorterURL: shortURL })
+        res.render("index", { originalURL, shorterURL: shortURL, localURL: req.headers.origin })
       }
-      res.render("index", { originalURL, shorterURL, localURL: req.headers.origin })
     })
     .catch(error => {
       console.log(error)
