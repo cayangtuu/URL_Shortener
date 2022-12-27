@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const URLModel = require("../../models/URL")
-const generateURL = require("../../utils/generateURL")
+const isExistURL = require("../../utils/generateURL")
 
 router.get("/", (req, res) => {
   res.render("index")
@@ -36,7 +36,7 @@ router.post("/", (req, res) => {
       if (Url) {
         res.render("index", { originalURL, shorterURL: Url.shorterURL, localURL: req.headers.origin })
       } else {
-        const shortURL = generateURL(5)
+        const shortURL = isExistURL(5)
         URLModel.create({ originalURL, shorterURL: shortURL })
         res.render("index", { originalURL, shorterURL: shortURL, localURL: req.headers.origin })
       }
