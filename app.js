@@ -21,24 +21,33 @@ app.post("/", (req, res) => {
   URLModel.findOne({ originalURL })
     .lean()
     .then(Url => {
-      if (Url) {
-        const shorterURL = Url.shorterURL
-        res.render("index", { originalURL, shorterURL, localURL: req.headers.origin })
-      } else {
-        const shorterURL = 'ertws'
-        URLModel.create({ originalURL, shorterURL })
-        res.render("index", { originalURL, shorterURL, localURL: req.headers.origin })
+      const shorterURL = () => {
+        if (Url) {
+          return Url.shorterURL
+        } else {
+          const shortURL = 'ertws'
+          URLModel.create({ originalURL, shorterURL: shortURL })
+          return shortURL
+        }
       }
+      res.render("index", { originalURL, shorterURL, localURL: req.headers.origin })
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log(error)
+      res.render("error", { 'errmsg': error.message })
+    })
 
 })
 
 app.get("/show/:shorterURL", (req, res) => {
   const { shorterURL } = req.params
-  URLModel.findOne({ shorterURL: shorterURL })
+  URLModel.findOne({ shorterURL })
     .then(Url => {
       return res.redirect(Url.originalURL)
+    })
+    .catch(error => {
+      console.log(error)
+      res.render("error", { 'errmsg': error.message })
     })
 })
 
