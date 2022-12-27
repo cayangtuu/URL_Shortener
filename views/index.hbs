@@ -1,17 +1,15 @@
 {{#if shorterURL}}
 <div class="alert alert-success mt-3" role="alert">
   <h5 class="alert-heading">Shorter Successfully !!!</h5>
-  <a id="link" href="/show/{{shorterURL}}">{{localURL}}/{{shorterURL}}</a>
+  <a id="link" href="/{{shorterURL}}">{{localURL}}/{{shorterURL}}</a>
   <button class="btn btn-sm btn-outline-dark mx-2" onclick='copyURL()'>Copy URL</button>
 </div>
 {{/if}}
 
 <script>
   function copyURL() {
-    console.log("a")
     const linkText = document.getElementById('link').textContent
-    console.log(linkText)
     navigator.clipboard.writeText(linkText);
-    alert(`copy the text: ${linkText}`)
-  } 
+    alert(`copy the text:\n${linkText}`)
+  }
 </script>
